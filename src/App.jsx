@@ -145,7 +145,7 @@ export default function AgronautasLanding() {
       </AnimatePresence>
       {!showSplash && (
         <div className="min-h-screen bg-white overflow-x-hidden">
-          {/* Navbar */}
+          {/* Navbar - SOLO UNA VEZ */}
           <motion.nav
             initial={{ y: -100 }}
             animate={{ y: 0 }}
@@ -164,32 +164,36 @@ export default function AgronautasLanding() {
                     AGRONAUTAS
                   </span>
                 </div>
-                <div className="hidden md:flex items-center gap-6 lg:gap-8">
+                
+                {/* Menú desktop - visible SOLO en pantallas de 1600px o más */}
+                <div className="hidden desktop:flex items-center gap-6 xl:gap-8">
                   {navItems.map((item) => (
                     <a
                       key={item}
                       href={`#${item.toLowerCase().replace(" ", "-")}`}
-                      className="text-slate-600 hover:text-emerald-600 font-medium transition-colors relative group"
+                      className="text-slate-600 hover:text-emerald-600 font-medium transition-colors relative group whitespace-nowrap"
                     >
                       {item}
                       <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-emerald-500 transition-all group-hover:w-full" />
                     </a>
                   ))}
-                  <button className="bg-gradient-to-r from-emerald-600 to-emerald-500 text-white px-5 py-2 rounded-full font-medium hover:shadow-lg transition-all">
+                  <button className="bg-gradient-to-r from-emerald-600 to-emerald-500 text-white px-5 py-2 rounded-full font-medium hover:shadow-lg transition-all whitespace-nowrap">
                     Demo
                   </button>
                 </div>
+                
+                {/* Botón menú hamburguesa - visible cuando la pantalla es MENOR a 1600px */}
                 <button
                   onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                  className="md:hidden p-2 rounded-lg bg-white/10 backdrop-blur-sm"
+                  className="desktop:hidden p-2 rounded-lg bg-white/10 backdrop-blur-sm"
                 >
-                  {mobileMenuOpen ? <X className="text-slate-800" /> : <Menu className="text-slate-800" />}
+                  {mobileMenuOpen ? <X className="text-slate-800" size={24} /> : <Menu className="text-slate-800" size={24} />}
                 </button>
               </div>
             </div>
           </motion.nav>
 
-          {/* Mobile Menu */}
+          {/* Mobile Menu - se muestra cuando el ancho es MENOR a 1600px */}
           <AnimatePresence>
             {mobileMenuOpen && (
               <>
@@ -198,16 +202,16 @@ export default function AgronautasLanding() {
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   onClick={() => setMobileMenuOpen(false)}
-                  className="fixed inset-0 z-30 bg-black/40 backdrop-blur-sm md:hidden"
+                  className="fixed inset-0 z-30 bg-black/40 backdrop-blur-sm desktop:hidden"
                 />
                 <motion.div
                   initial={{ opacity: 0, y: -30, scaleY: 0.8 }}
                   animate={{ opacity: 1, y: 0, scaleY: 1 }}
                   exit={{ opacity: 0, y: -30, scaleY: 0.8 }}
                   transition={{ duration: 0.3, ease: "easeOut" }}
-                  className="fixed top-[60px] sm:top-[72px] left-4 right-4 z-40 bg-gradient-to-b from-white to-slate-50 rounded-2xl shadow-2xl md:hidden border border-slate-100/50 overflow-hidden origin-top"
+                  className="fixed top-[60px] sm:top-[72px] left-4 right-4 z-40 bg-gradient-to-b from-white to-slate-50 rounded-2xl shadow-2xl desktop:hidden border border-slate-100/50 overflow-hidden origin-top"
                 >
-                  <div className="flex flex-col p-6 gap-2">
+                  <div className="flex flex-col p-6 gap-2 max-h-[80vh] overflow-y-auto">
                     {navItems.map((item, idx) => (
                       <motion.a
                         key={item}
@@ -227,7 +231,14 @@ export default function AgronautasLanding() {
                       animate={{ opacity: 1 }}
                       transition={{ delay: navItems.length * 0.05 + 0.1, duration: 0.3 }}
                       className="mt-4 pt-4 border-t border-slate-200"
-                    />
+                    >
+                      <button 
+                        onClick={() => setMobileMenuOpen(false)}
+                        className="bg-gradient-to-r from-emerald-600 to-emerald-500 text-white px-5 py-3 rounded-full font-medium w-full hover:shadow-lg transition-all"
+                      >
+                        Solicitar Demo
+                      </button>
+                    </motion.div>
                   </div>
                 </motion.div>
               </>
